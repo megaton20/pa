@@ -1,0 +1,204 @@
+<%- include ('./partials/nav') %>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero text-center">
+    <div class="container">
+
+      <div class="mt-5"></div>
+      <br>
+      <br>
+      <!-- Carousel starts -->
+      <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+          <!-- First Item -->
+          <div class="carousel-item active">
+            <div class="row align-items-center">
+              <!-- Text Section (col-8 on larger screens, col-12 on mobile) -->
+              <div class="col-lg-8 col-md-8 col-sm-12 text-start ">
+                <p data-aos="fade-up" data-aos-delay="400">
+                  This pageant is a platform where women can showcase their talents, embrace their cultural heritage,
+                  and advocate for causes close to their hearts. It's a space where each contestant steps forward as a
+                  role model and a leader in her community.
+                </p>
+                <h2 data-aos="fade-up" data-aos-delay="300"> we celebrate more than just beauty, we honor the strength,
+                  intelligence, and leadership of women from all backgrounds.</h2>
+              </div>
+              <!-- Image Section (col-4 on larger screens, col-12 on mobile) -->
+              <div class="col-lg-4 col-md-4 col-sm-12" data-aos="fade-up" data-aos-delay="300">
+                <div class="rounded-container">
+                  <img src="/img/mm.JPG" class="img-fluid " alt="Hero Image">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Second Item -->
+          <div class="carousel-item">
+            <div class="row align-items-center">
+              <!-- Text Section (col-8 on larger screens, col-12 on mobile) -->
+              <div class="col-lg-8 col-md-8 col-sm-12 text-start">
+                <p data-aos="fade-up" data-aos-delay="400">
+                  Our contestants are not only ambassadors of beauty but also champions of resilience, passion, and
+                  positive impact. As they embody the essence of empowerment, they inspire future generations to break
+                  boundaries and reach new heights, creating lasting change in their communities and beyond.
+                </p>
+                <h2 data-aos="fade-up" data-aos-delay="300">Through this event, we unite diverse voices to inspire
+                  change and uplift one another.</h2>
+              </div>
+              <!-- Image Section (col-4 on larger screens, col-12 on mobile) -->
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="rounded-container">
+                  <img src="/img/mm-2.JPG" class="img-fluid " alt="Second Hero Image">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add more carousel items as needed -->
+        </div>
+
+        <!-- Carousel Controls positioned at the bottom -->
+        <div class="carousel-controls text-center mt-4">
+          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <!-- Carousel ends -->
+    </div>
+  </section>
+
+  <style>
+    /* Custom CSS to reposition the carousel controls */
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      bottom: 0;
+      margin-top: 30px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      border-radius: 50%;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      filter: invert(1);
+      /* Makes the icons visible on a colored background */
+    }
+
+    .rounded-container {
+      border-radius: 50%;
+      width: 400px;
+      /* Set a fixed width */
+      height: 400px;
+      /* Set a fixed height */
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      /* Center image horizontally */
+      align-items: center;
+      /* Center image vertically */
+      background-color: #271b1b;
+      /* Optional: Add background color */
+    }
+
+    .rounded-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      /* Ensure image covers the container while maintaining aspect ratio */
+    }
+  </style>
+
+<section id="about" class="py-5 bg-light">
+
+  <!-- Section Title -->
+  <div class="container section-title mt-2" data-aos="fade-up" data-aos-delay="100">
+    <h2>Theme</h2>
+
+  </div>
+  <!-- End Section Title -->
+   
+  <div class="container">
+    <div class="row align-items-center" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-md-5 col-sm-12  mb-4">
+        <div class="image-containnn">
+          <img src="/img/z.jpg" class="img-fluid rounded shadow" alt="About Image" data-aos="slide-left"
+            data-aos-delay="100">
+        </div>
+      </div>
+      <div class="col-md-7 mt-2">
+        <div class="container">
+          <h4 class="primary-color">ELIXIR</h4>
+          <p>
+
+            It’s another wonderful season to celebrate Beauty and Brains in the University Of Calabar community. We
+            are excited to officially announce the Mr and Miss Unical 2024/2025 pageant, and edition that promises to
+            raise the standards.
+
+            This year’s theme is “Scholarly Elegance:
+            Fashion Fantasia" a theme that blends intelligence with style. It's showcasing the best of both worlds -
+            brains and beauty! that reflect their academic prowess. It's going to be a night to remember for sure!
+          </p>
+
+          <p>
+            Get ready for a night that will always be remembered
+
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+
+<!-- prizes section -->
+<section class="event" id="event" class="py-5 bg-light shadow">
+  <div class="container section-title mt-2" data-aos="fade-up" data-aos-delay="100">
+    <h2>Prizes</h2>
+
+  </div>
+  <div class="container">
+    <%- include('./partials/prizes') %>
+
+  </div>
+</section>
+
+  <!-- Contestants Section -->
+  <section id="contestants" class="py-5 bg-light">
+
+    <!-- Section Title -->
+    <div class="container section-title mt-2" data-aos="fade-up" data-aos-delay="100">
+      <h2>contestants</h2>
+
+    </div><!-- End Section Title -->
+
+
+    <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
+      <%- include('./partials/contestants') %>
+    </div>
+  </section>
+
+
+    <%- include('./partials/footer') %>
+

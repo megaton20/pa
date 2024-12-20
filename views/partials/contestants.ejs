@@ -1,0 +1,19 @@
+
+<div class="row">
+    <% contestants.forEach((data) => { %>
+      <div class="col-md-3 mb-4">
+        <a href="/contestants/<%= data.id %>/vote">
+        <div class="card contender" data-id="<%= data.id %>" data-aos="fade-up" data-aos-delay="100">
+          <div class="user-images">
+            <div class="image-gallery">
+              <img src="<%= data.photo_url %>" class="card-img-top" alt="<%= data.fname %> <%= data.lname %>">
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <p class="card-text text-success">Total Votes: <strong id="voteCount-<%= data.id %>"><%= data.vote_count %></strong></p>
+          </div>
+        </div>
+      </a>
+      </div>
+    <% }) %>
+  </div>
