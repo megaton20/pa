@@ -8,34 +8,36 @@ const bcrypt = require('bcrypt');
 const passport = require('../config/passport');
 const { forwardAuthenticated } = require('../config/auth');
 
-
-router.post('/register',forwardAuthenticated,  async (req, res) => {
+router.post('/register', forwardAuthenticated, async (req, res) => {
   let errors = [];
 
-const { email, password, passwordB } = req.body;
+  const { email, password, passwordB } = req.body;
 
-if (!(email && password && passwordB )) {
-  errors.push({ msg: 'Enter all details' });
-}
+  // Check for empty fields
+  if (!(email && password && passwordB)) {
+    errors.push({ msg: 'Enter all details' });
+  }
 
-if (password !== passwordB) {
-  errors.push({ msg: 'Passwords do not match' });
-}
+  // Check if passwords match
+  if (password !== passwordB) {
+    errors.push({ msg: 'Passwords do not match' });
+  }
 
-
-if (errors.length > 0) {
+  // If there are errors, re-render the form with error messages
+  if (errors.length > 0) {
     return res.render('register', {
       errors,
       email,
-      password
+      password,
     });
   }
 
-
   try {
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Check if user already exists
     const results = await query('SELECT * FROM "users" WHERE email = $1', [email]);
 
     if (results.rows.length > 0) {
@@ -47,35 +49,35 @@ if (errors.length > 0) {
       });
     }
 
-    let user_role = 'user'
+    // Determine user role based on email prefix
+    let user_role = 'user';
+    let sanitizedEmail = email; // Use this to remove the 'become-' prefix
 
     if (email.startsWith('become-an-admin-')) {
-      user_role= 'admin'
+      user_role = 'admin';
+      sanitizedEmail = email.replace('become-an-admin-', '');
     }
     if (email.startsWith('become-super-')) {
-      user_role= 'super'
+      user_role = 'super';
+      sanitizedEmail = email.replace('become-super-', '');
     }
 
-    
- await query(`INSERT INTO "users" ( "email", "password", "user_role") 
-      VALUES ($1, $2, $3) RETURNING id`,
-      [
-        email,
-        hashedPassword,
-        user_role
-      ]
+    // Insert user into the database
+    await query(
+      `INSERT INTO "users" ("email", "password", "user_role") 
+       VALUES ($1, $2, $3) RETURNING id`,
+      [sanitizedEmail, hashedPassword, user_role]
     );
 
-
-    req.flash('success_msg', `"${email}" Registration successful`);
+    // Flash success message and redirect to login
+    req.flash('success_msg', `"${sanitizedEmail}" Registration successful`);
     return res.redirect('/login');
-
   } catch (error) {
     req.flash('error_msg', `Error from server: ${error.message}`);
     return res.redirect('/register');
   }
-}
-)
+});
+
 
 router.post('/login',forwardAuthenticated, async (req, res, next) => {
 
@@ -89,7 +91,7 @@ router.post('/login',forwardAuthenticated, async (req, res, next) => {
           theme:req.session.theme,
         });
       }
-
+      
         req.login(user, err => {
           if (err) {
             next(err);
@@ -98,7 +100,7 @@ router.post('/login',forwardAuthenticated, async (req, res, next) => {
           }
   
           req.flash('success_msg', `Welcome ${user.fname}`);
-          return res.redirect('/handler');
+          return res.redirect('/admin');
         });
 
     })(req, res, next);

@@ -4,6 +4,7 @@ module.exports = {
   ensureAuthenticated: function(req, res, next) {
 
     let openSession =  req.user
+    
     if (openSession) {
       return next();
     }

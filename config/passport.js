@@ -22,6 +22,9 @@ passport.deserializeUser(async (id, done) => {
       return done(null, false); 
     }
 
+  
+    
+
     done(null, results[0]); // User found, return the user object
   } catch (err) {
     console.error(`Error during deserialization of user with ID ${id}:`, err);

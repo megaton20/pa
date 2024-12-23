@@ -38,8 +38,9 @@ app.use(session({
     cookie: { maxAge: 24 * 60 * 60 * 1000 }
   }));
 
-  // app.use(passport.initialize());
-// app.use(passport.session());
+  app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -57,7 +58,6 @@ app.use(methodOverride((req, res) => {
       return method;
   }
 }));
-
 
 app.use('/', openRoutes); 
 app.use('/auth', authRoutes); 

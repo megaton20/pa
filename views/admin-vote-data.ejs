@@ -3,6 +3,8 @@
 
   <!-- Admin Panel Content -->
   <div class="container-fluid p-4">
+    <%- include('./partials/messages') %>
+
     <div class="single-vote-view">
       <div class="row">
         <div class="col-md-6 mb-4">
@@ -29,13 +31,13 @@
             <div class="row">
               <!-- render this buttons conditionally -->
               <div class="col-md-6">
-                <form action="/admin/accept-vote/<%= singleClaims.contestant_id %>" method="post">
+                <form action="/admin/accept-vote/<%= singleClaims.id %>" method="post">
                   <input type="hidden" name="_method" value="PUT">
                   <button class="btn btn-success w-100 mb-4"> <i class="fas fa-check-circle"></i> Approve </button>
                 </form>
               </div>
               <div class="col-md-6">
-                <form action="/admin/query-vote/<%= singleClaims.contestant_id %>" method="post">
+                <form action="/admin/query-vote/<%= singleClaims.id %>" method="post">
                   <input type="hidden" name="_method" value="PUT">
                   <button class="btn btn-danger w-100 mb-4"> <i class="fas fa-times-circle"></i> Query </button>
                 </form>
