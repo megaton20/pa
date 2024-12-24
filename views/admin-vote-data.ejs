@@ -27,22 +27,44 @@
   
           <div class="col-md-6">
             <p class="text-danger text-uppercase">actions</p>
-  
             <div class="row">
-              <!-- render this buttons conditionally -->
-              <div class="col-md-6">
-                <form action="/admin/accept-vote/<%= singleClaims.id %>" method="post">
-                  <input type="hidden" name="_method" value="PUT">
-                  <button class="btn btn-success w-100 mb-4"> <i class="fas fa-check-circle"></i> Approve </button>
-                </form>
-              </div>
-              <div class="col-md-6">
-                <form action="/admin/query-vote/<%= singleClaims.id %>" method="post">
-                  <input type="hidden" name="_method" value="PUT">
-                  <button class="btn btn-danger w-100 mb-4"> <i class="fas fa-times-circle"></i> Query </button>
-                </form>
+              <!-- Conditionally render buttons based on is_approved and status -->
+              
+              <% if (singleClaims.status === 'query') { %>
+                <!-- Show only the Approve button if the status is "query" -->
+                <div class="col-md-6">
+                  <form action="/admin/accept-vote/<%= singleClaims.id %>" method="post">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="btn btn-success w-100 mb-4"> <i class="fas fa-check-circle"></i> Approve </button>
+                  </form>
+                </div>
+              <% } else if (singleClaims.is_approved === false) { %>
+                <!-- Show both Approve and Query buttons if is_approved is false -->
+                <div class="col-md-6">
+                  <form action="/admin/accept-vote/<%= singleClaims.id %>" method="post">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="btn btn-success w-100 mb-4"> <i class="fas fa-check-circle"></i> Approve </button>
+                  </form>
+                </div>
+                <div class="col-md-6">
+                  <form action="/admin/query-vote/<%= singleClaims.id %>" method="post">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="btn btn-danger w-100 mb-4"> <i class="fas fa-times-circle"></i> Query </button>
+                  </form>
+                </div>
+              <% } else if (singleClaims.is_approved === true) { %>
+                <!-- Show a message if the claim is already approved -->
+                <div class="col-md-12">
+                  <p class="text-success">This claim has already been approved.</p>
+                </div>
+              <% } else { %>
+                <!-- Optional: handle cases where status or is_approved is undefined or null -->
+                <div class="col-md-12">
+                  <p class="text-warning">The approval status is unclear.</p>
+                </div>
+              <% } %>
             </div>
-          </div>
+            
       </div>
     </div>
 

@@ -4,7 +4,7 @@ const router = express.Router();
 const { promisify } = require('util');
 const db = require("../model/databaseTable");
 const query = promisify(db.query).bind(db);
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const passport = require('../config/passport');
 const { forwardAuthenticated } = require('../config/auth');
 

@@ -15,7 +15,7 @@
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Date</th>
+                  <th>votes</th>
                   <th>action</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                         <td><%= index + 1 %></td>
                         <td><%= data['fname'] %> <%= data['lname'] %></td>
 
-                        <td><%= data['createdAt']%></td>
+                        <td><%= data['vote_count']%></td>
                       <td>
                         <a href="/admin/view-contestant/<%= data['id']%>" class="btn btn-outline-primary">view</a>
                       </td>

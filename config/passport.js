@@ -4,7 +4,7 @@ const db = require("../model/databaseTable");
 const { promisify } = require('util');
 const query = promisify(db.query).bind(db);
 const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 

@@ -15,12 +15,13 @@ router.get('/', ensureAuthenticated, async (req, res) => {
 
   try {
     const { rows: contestants } = await query('SELECT * FROM "contestants"');
-    const { rows: votesClaims } = await query('SELECT * FROM "votesClaims"');
+    const { rows: votesClaims } = await query('SELECT * FROM "votesClaims" WHERE is_approved = $1',[false]);
+    const { rows: allVotes } = await query('SELECT * FROM "votesClaims"');
 
     res.render('admin', {
       appName,
       contestants,
-      allVotes: votesClaims,
+      allVotes,
       votesClaims,
     });
 
@@ -35,7 +36,7 @@ router.get('/', ensureAuthenticated, async (req, res) => {
 router.get('/all-votes', ensureAuthenticated, async (req, res) => {
 
   try {
-    const { rows: votesClaims } = await query(`SELECT * FROM "votesClaims" WHERE is_approved = false`);
+    const { rows: votesClaims } = await query(`SELECT * FROM "votesClaims" WHERE is_approved = false AND status != 'query'`);
 
     res.render('admin-all-votes', {
       appName,
@@ -145,23 +146,30 @@ router.get('/view-contestant/:id', ensureAuthenticated, async (req, res) => {
 })
 
 router.put('/edit-contestant/:id', ensureAuthenticated, async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
+  const { fname, lname, bio } = req.body;
 
-  try {
-    // update contenstants provided fields with req.body where id = params.id
-
-    const { rows: voteFor } = await query('SELECT * FROM "contestants" WHERE id = $1', [id]);
-
-    console.log("updating user under construction");
-
-
-  } catch (error) {
-    console.log(error);
-    req.flash('error_msg', "error from server ")
-    return res.redirect('/admin')
+  // Validation: Ensure fname and lname are not empty
+  if (!fname || !lname) {
+    req.flash('error_msg', 'First name and last name cannot be empty.');
+    return res.redirect('/admin');
   }
 
-})
+  try {
+    // Update only fname, lname, and bio
+    await query(
+      `UPDATE "contestants" SET fname = $1, lname = $2, bio = $3 WHERE id = $4`,
+      [fname, lname, bio, id]
+    );
+
+    req.flash('success_msg', 'Contestant updated successfully');
+    return res.redirect('/admin');
+  } catch (error) {
+    console.log(error);
+    req.flash('error_msg', "Error from server");
+    return res.redirect('/admin');
+  }
+});
 
 
 
@@ -190,47 +198,47 @@ router.get('/view-vote/:id', ensureAuthenticated, async (req, res) => {
 
 
 router.put('/accept-vote/:id', ensureAuthenticated, async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
 
   try {
-
+    // Fetch vote claim and contestant info
     const { rows: singleClaims } = await query('SELECT * FROM "votesClaims" WHERE id = $1', [id]);
     const { rows: contestant } = await query('SELECT * FROM "contestants" WHERE id = $1', [singleClaims[0].contestant_id]);
 
-    const oldVote = contestant[0].vote_count
-    const newVote = oldVote + singleClaims[0].vote_count
+    // Get the old vote count and calculate the new one
+    const oldVote = contestant[0].vote_count;
+    const newVote = oldVote + singleClaims[0].vote_count;
 
-    // update status to verified where id = id
-    // update is approved to true where id = id
+    // Update the contestant's vote count
+    await query('UPDATE "contestants" SET vote_count = $1 WHERE id = $2', [newVote, contestant[0].id]);
 
+    // Update the claim to be approved
+    await query('UPDATE "votesClaims" SET status = $1, is_approved = $2 WHERE id = $3', ['verified', true, id]);
 
-    req.flash('success_msg', ` old vote was ${oldVote} and new total vote is ${newVote}`)
-    return res.redirect('/admin')
-
+    req.flash('success_msg', `Old vote was ${oldVote} and new total vote is ${newVote}`);
+    return res.redirect('/admin');
   } catch (error) {
     console.log(error);
-    req.flash('error_msg', "error from server ")
-    return res.redirect('/admin')
+    req.flash('error_msg', "Error from server");
+    return res.redirect('/admin');
   }
-})
-
+});
 
 router.put('/query-vote/:id', ensureAuthenticated, async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
 
-    const { rows: singleClaims } = await query('SELECT * FROM "votesClaims" WHERE id = $1', [id]);
+    // Update the claim status and is_approved to false
+    await query('UPDATE "votesClaims" SET status = $1, is_approved = $2 WHERE id = $3', ['query', false, id]);
 
-    // UPDATE is_approved to false
-    // update status to "query"
-    req.flash('warning_msg', `claim has been queried! `)
-    return res.redirect('/admin')
-
+    req.flash('warning_msg', `Claim has been queried!`);
+    return res.redirect('/admin');
   } catch (error) {
     console.log(error);
-    req.flash('error_msg', "error from server ")
-    return res.redirect('/admin')
+    req.flash('error_msg', "Error from server");
+    return res.redirect('/admin');
   }
-})
+});
+
 
 module.exports = router;

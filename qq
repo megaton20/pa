@@ -7,9 +7,6 @@ CREATE TABLE users (
     user_role VARCHAR(50) DEFAULT 'user',-- User role, defaults to 'user'
 );
 
-
-
-
 CREATE TABLE "contestants" (
   "id" SERIAL PRIMARY KEY,
   "fname" VARCHAR(255) NOT NULL,
@@ -19,8 +16,6 @@ CREATE TABLE "contestants" (
   "photo_url"VARCHAR(255) NOT NULL,
   "bio" VARCHAR(255) NULL
 );
-
-
 
 CREATE TABLE "votesClaims" (
   "id" SERIAL PRIMARY KEY,
