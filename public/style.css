@@ -14,7 +14,9 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-     
+a{
+  text-decoration: none !important;
+}
 .prize-box {
     border: 1px solid #33333355 ;
     height: 350px;

@@ -41,15 +41,12 @@
             <p class="text-danger text-uppercase">actions</p>
   
             <div class="row">
-              <!-- render this buttons conditionally -->
               <div class="col-md-6">
-                <form action="/admin/remove-contestant/<%= voteFor[0].id %>" method="post">
-                  <button class="btn btn-danger w-100 mb-4">
-                    <i class="fas fa-trash"></i> Remove
-                  </button>
-                </form>
+                <button class="btn btn-danger w-100 mb-4" data-bs-toggle="modal" data-bs-target="#deleteModal" id="openDeleteModal">
+                  Delete Contestant
+                </button>
                 <!-- Button to open the modal -->
-                <button class="btn btn-warning w-100 mb-4" data-bs-toggle="modal" data-bs-target="#editModal" id="openEditModal">
+                <button class="btn btn-warning text-light w-100 mb-4" data-bs-toggle="modal" data-bs-target="#editModal" id="openEditModal">
                   Edit Contestant
                 </button>
               </div>
@@ -60,6 +57,24 @@
     </div>
   </div>
 
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title" id="deleteModalLabel">Delete <%= voteFor[0].fname %> <%= voteFor[0].lname %></p>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="deleteContestantForm" method="post" action="/admin/remove-contestant/<%= voteFor[0].id %>">
+            <!-- Override HTTP method to PUT -->
+            <input type="hidden" name="_method" value="DELETE">
+            
+            <button type="submit" class="btn btn-danger">Delete Contestant</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

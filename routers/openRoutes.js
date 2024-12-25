@@ -43,7 +43,7 @@ router.get('/contestants/:id/vote', async (req, res) => {
 })
 
 router.get('/standing', async (req, res) => {
-  const { rows: standings } = await query('SELECT * FROM "contestants" ORDER BY vote_count ASC');
+  const { rows: standings } = await query('SELECT * FROM "contestants" ORDER BY vote_count DESC');
 
   res.render('standing', {
     pageTitle: `Welcome to ${appName}`,
