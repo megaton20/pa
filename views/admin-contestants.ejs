@@ -6,6 +6,7 @@
   <div class="container-fluid p-4">
     <%- include('./partials/messages') %>
 
+    <a href="/admin/add-contestant" class="btn btn-success mb-4">add contestant</a>
 
     <p class="text-uppercase text-success"> All contestants table</p>
 <!-- system votes -->
@@ -27,7 +28,12 @@
 
                         <td><%= data['vote_count']%></td>
                       <td>
+                       
                         <a href="/admin/view-contestant/<%= data['id']%>" class="btn btn-outline-primary">view</a>
+                        <form action="/admin/delete-contestant/<%= data['id']%>" method="post">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <button class="btn btn-outline-danger "> Evict </button>
+                        </form>
                       </td>
                     </tr> 
                 <% }) %>

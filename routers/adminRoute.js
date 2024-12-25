@@ -4,6 +4,10 @@ const { promisify } = require('util');
 const query = promisify(db.query).bind(db);
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
+const upload = require('../config/multerConfig'); // Import the Multer config
+const path = require('path')
+const fs = require('fs')
+
 
 
 
@@ -163,7 +167,8 @@ router.put('/edit-contestant/:id', ensureAuthenticated, async (req, res) => {
     );
 
     req.flash('success_msg', 'Contestant updated successfully');
-    return res.redirect('/admin');
+    return res.redirect('/admin/contestants');
+
   } catch (error) {
     console.log(error);
     req.flash('error_msg', "Error from server");
@@ -239,6 +244,93 @@ router.put('/query-vote/:id', ensureAuthenticated, async (req, res) => {
     console.log(error);
     req.flash('error_msg', "Error from server");
     return res.redirect('/admin');
+  }
+});
+
+
+
+router.get('/add-contestant', ensureAuthenticated, async (req, res) => {
+
+  try {
+    res.render('admin-create-contestant', {
+      appName,
+    });
+  } catch (error) {
+    console.log(error);
+    req.flash('error_msg', "error from server ")
+    return res.redirect('/admin')
+  }
+})
+
+router.post('/add-contestant', ensureAuthenticated, upload.single('image'), async (req, res) => {
+  const { fname, lname,bio } = req.body;
+  // Handle image file, defaulting to "default.jpg" if no file is uploaded
+  let image = req.file ? req.file.filename : "default.jpg";
+
+  // Define additional fields
+  const status = "active"; 
+  const photo_url = `${image}`;
+  const vote_count = 0
+
+  try {
+    await query(
+      `INSERT INTO contestants (fname, lname, status, photo_url,bio,vote_count)
+       VALUES ($1, $2, $3, $4,$5, $6)`,
+      [fname, lname, status, photo_url,bio,vote_count]
+    );
+
+    req.flash('success_msg', `Contestant ${fname} ${lname} added successfully!`);    
+    res.redirect('/admin/contestants');
+  } catch (error) {
+    console.error(error);
+    // Flash error message if there's an issue
+    req.flash('error_msg', 'There was an error adding the contestant');
+    // Redirect to the admin page in case of error
+    return res.redirect('/admin');
+  }
+});
+
+
+router.delete('/delete-contestant/:id', ensureAuthenticated, async (req, res) => {
+  const { id } = req.params; // Get the contestant ID from the URL parameter
+
+  try {
+    // First, retrieve the contestant's data to get the image filename
+    const contestantResult = await query(`SELECT "photo_url" FROM contestants WHERE "id" = $1`,[id]);
+
+    // If the contestant does not exist, return an error response
+    if (contestantResult.rows.length === 0) {
+      req.flash('error_msg', 'Contestant not found');
+      return res.redirect('/admin/contestants');
+    }
+
+    // Get the photo_url (image path) of the contestant
+    const photo_url = contestantResult.rows[0].photo_url;
+
+    // Delete the contestant from the database
+    await query(`DELETE FROM contestants WHERE "id" = $1`,[id]);
+
+    // If the contestant had an image, delete the image file from the server
+    if (photo_url !== 'default.jpg') {
+      const imagePath = path.join(__dirname, '..', 'public', '/uploads', path.basename(photo_url));
+      
+      // Check if the file exists and delete it
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.log('Error deleting image:', err);
+        } else {
+          console.log('Image deleted successfully');
+        }
+      });
+    }
+
+    // Flash success message and redirect
+    req.flash('success_msg', 'Contestant deleted successfully');
+    res.status(200).redirect('/admin/contestants');
+  } catch (error) {
+    console.error('Error during deletion:', error);
+    req.flash('error_msg', 'An error occurred while deleting the contestant');
+    res.status(500).redirect('/admin');
   }
 });
 

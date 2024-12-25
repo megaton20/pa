@@ -10,7 +10,6 @@
 
 
 body {
-  background-color: #f2f2f2;
   font-family: "Poppins", sans-serif;
 }
 
@@ -97,51 +96,7 @@ a{
 
 }
 
-.event{
-  padding-top: 100px;
-  padding-bottom: 100px;
 
-}
-
-.event-details {
-  border-left: 1px solid var(--accent-color);
-}
-.event-details h2{
-  color: var(--accent-color);
-  font-style: normal;
-  text-transform: uppercase;
-}
-
-
-.event-details h4{
-  color: var(--default-color);
-  font-style: normal;
-  font-size: 14px;
-  text-transform: uppercase;
-  font-style: italic;
-}
-
-.event-details p span{
-  text-transform: uppercase;
-  color: var(--accent-color);
-}
-.event-details p {
-  text-transform: uppercase;
-}
-.counter{
-  background-image: url('./img/decor_inside.png');
-  background-size: cover;
-}
-.counter h2{
-  color: var(--accent-color);
-  text-transform: uppercase;
-  font-size: 15px;
-}
-.counter .item{
-  padding: 15px;
-  border-left: 1px solid var(--accent-color);
-  margin-top:20px ;
-}
 
 .dash-height{
   height: 100px !important;
@@ -154,15 +109,6 @@ a{
 }
 
 
-.event-details{
-  background-image: url('./img/decor_inside.png');
-  background-size: cover;
-
-}
-.countdown-container {
-  display: flex;
-  gap: 50px;
-}
 
 
 .single-vote-info{
@@ -194,56 +140,84 @@ h2 {
 
 
 .navbar-brand img {
-  max-width: 90px; /* Set a maximum width for the logo */
-  height: auto; /* Ensure the logo scales proportionally */
-  display: block; /* Ensures it behaves like a block element */
+  max-width: 60px; 
+  height: auto; 
+  display: block;
 }
 
 @media (max-width: 768px) {
   .navbar-brand img {
-    max-width: 100px; /* Reduce the size slightly for mobile screens */
+    max-width: 50px; /* Reduce the size slightly for mobile screens */
   }
 }
 
 @media (max-width: 480px) {
   .navbar-brand img {
-    max-width: 80px; /* Even smaller size for very small screens */
+    max-width: 50px; /* Even smaller size for very small screens */
   }
 }
 
-
 .hero {
-
-  background: var(--accent-color); 
+  background-image: url('./img/banner-1.jpg');
+  background-color: #012970;
   background: linear-gradient(90deg, var(--accent-color) 0%, var(--gold-color) 100%);
-  height: 100vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #fff;
   background-size: cover;
+  position: relative;
+}
+.hero .overlay{
+  background-color: #451467;
+}
+.carousel-inner {
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for a classic look */
 }
 
-.carousel-item{
-  padding: 12px;
-}
-.hero h1{
-  margin-top: 100px;
-}
-.hero h2{
-  font-size: 12px;
-  margin-bottom: 25px;
-  font-style: italic;
+.carousel-item h3 {
+  font-size: 2.5rem;  /* Larger font size for emphasis */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added shadow for a classic effect */
 }
 
-
-@media (max-width: 768px) {
-  .carousel-inner {
-    margin-top: 50px; 
-  }
+.carousel-item p {
+  font-size: 1.2rem;
+  font-weight: lighter;
+  color: #fff;
+  margin-top: 10px;
 }
 
+.carousel-item {
+  background-color: rgba(0, 0, 0, 0.5); /* Slight dark overlay for a classic feel */
+  padding: 30px;
+  height: 250px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  display: none; 
+}
+
+.about-bg{
+  background-image: url('./img/z.png');
+  background-repeat: no-repeat;
+  
+}
+
+.call-box{
+  height: 30vh;
+}
+.call-box .image-cont{
+  background-image: url('./img/banner-4.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  z-index: 1;
+}
 
 .text-heading{
   color: var(--accent-color);
