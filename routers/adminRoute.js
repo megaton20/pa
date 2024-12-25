@@ -178,14 +178,16 @@ router.get('/view-vote/:id', ensureAuthenticated, async (req, res) => {
   try {
 
     const { rows: singleClaims } = await query('SELECT * FROM "votesClaims" WHERE id = $1', [id]);
-
+    
     if (singleClaims.length <= 0) {
       req.flash('error_msg', "no claim registered")
       return res.redirect('/admin')
     }
+    const { rows: contestant } = await query('SELECT * FROM "contestants" WHERE id = $1', [singleClaims[0].contestant_id]);
     res.render('admin-vote-data', {
       appName,
       singleClaims: singleClaims[0],
+      contestant:contestant[0]
     });
 
 
